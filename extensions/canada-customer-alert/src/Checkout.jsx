@@ -21,7 +21,8 @@ function Extension() {
   const cartLines = useCartLines();
   const [isFlag, setIsFlag] = useState(false);
 
-  const {title: merchantTitle, description, collapsible, status: merchantStatus} = useSettings();
+  
+  const { description, collapsible } = useSettings();
 
 
   useEffect(()=>{
@@ -70,8 +71,8 @@ function Extension() {
   },[countryCode, cartLines])
 
   // Set a default status for the banner if a merchant didn't configure the banner in the checkout editor
-  const status = merchantStatus ?? 'info';
-  const title = merchantTitle ?? '';
+  const status = useSettings().merchantStatus ?? 'info';
+  const title = useSettings().merchantTitle ?? '';
 
  
   return (

@@ -19534,10 +19534,11 @@ ${errorInfo.componentStack}`);
     () => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Extension, {})
   );
   function Extension() {
+    var _a, _b;
     const { countryCode } = useShippingAddress();
     const cartLines = useCartLines();
     const [isFlag, setIsFlag] = (0, import_react11.useState)(false);
-    const { title: merchantTitle, description, collapsible, status: merchantStatus } = useSettings();
+    const { description, collapsible } = useSettings();
     (0, import_react11.useEffect)(() => {
       if (countryCode == "CA") {
         for (const item of cartLines) {
@@ -19565,8 +19566,8 @@ ${errorInfo.componentStack}`);
         setIsFlag(false);
       }
     }, [countryCode, cartLines]);
-    const status = merchantStatus != null ? merchantStatus : "info";
-    const title = merchantTitle != null ? merchantTitle : "";
+    const status = (_a = useSettings().merchantStatus) != null ? _a : "info";
+    const title = (_b = useSettings().merchantTitle) != null ? _b : "";
     return isFlag ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Banner2, { title, status, collapsible, children: description }) : null;
   }
 })();

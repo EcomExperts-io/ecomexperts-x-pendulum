@@ -627,7 +627,7 @@
             var newElement = ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props);
             return newElement;
           }
-          function cloneElement2(element, config, children) {
+          function cloneElement(element, config, children) {
             if (element === null || element === void 0) {
               throw new Error("React.cloneElement(...): The argument must be a React element, but you passed " + element + ".");
             }
@@ -675,7 +675,7 @@
             }
             return ReactElement(element.type, key, ref, self, source, owner, props);
           }
-          function isValidElement3(object) {
+          function isValidElement2(object) {
             return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
           }
           var SEPARATOR = ".";
@@ -740,7 +740,7 @@
                   return c;
                 });
               } else if (mappedChild != null) {
-                if (isValidElement3(mappedChild)) {
+                if (isValidElement2(mappedChild)) {
                   {
                     if (mappedChild.key && (!_child || _child.key !== mappedChild.key)) {
                       checkKeyStringCoercion(mappedChild.key);
@@ -828,7 +828,7 @@
             }) || [];
           }
           function onlyChild(children) {
-            if (!isValidElement3(children)) {
+            if (!isValidElement2(children)) {
               throw new Error("React.Children.only expected to receive a single React element child.");
             }
             return children;
@@ -1133,7 +1133,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState(initialState) {
+          function useState3(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1141,11 +1141,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef2(initialValue) {
+          function useRef3(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect(create, deps) {
+          function useEffect3(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1157,7 +1157,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback2(callback, deps) {
+          function useCallback(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1559,11 +1559,11 @@
             if (isArray(node)) {
               for (var i = 0; i < node.length; i++) {
                 var child = node[i];
-                if (isValidElement3(child)) {
+                if (isValidElement2(child)) {
                   validateExplicitKey(child, parentType);
                 }
               }
-            } else if (isValidElement3(node)) {
+            } else if (isValidElement2(node)) {
               if (node._store) {
                 node._store.validated = true;
               }
@@ -1574,7 +1574,7 @@
                   var iterator = iteratorFn.call(node);
                   var step;
                   while (!(step = iterator.next()).done) {
-                    if (isValidElement3(step.value)) {
+                    if (isValidElement2(step.value)) {
                       validateExplicitKey(step.value, parentType);
                     }
                   }
@@ -1697,7 +1697,7 @@
             return validatedFactory;
           }
           function cloneElementWithValidation(element, props, children) {
-            var newElement = cloneElement2.apply(this, arguments);
+            var newElement = cloneElement.apply(this, arguments);
             for (var i = 2; i < arguments.length; i++) {
               validateChildKeys(arguments[i], newElement.type);
             }
@@ -1918,24 +1918,24 @@
           exports.createFactory = createFactory;
           exports.createRef = createRef;
           exports.forwardRef = forwardRef;
-          exports.isValidElement = isValidElement3;
+          exports.isValidElement = isValidElement2;
           exports.lazy = lazy;
           exports.memo = memo2;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback2;
+          exports.useCallback = useCallback;
           exports.useContext = useContext3;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect;
+          exports.useEffect = useEffect3;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect;
           exports.useMemo = useMemo2;
           exports.useReducer = useReducer;
-          exports.useRef = useRef2;
-          exports.useState = useState;
+          exports.useRef = useRef3;
+          exports.useState = useState3;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -18194,7 +18194,7 @@
           {
             propTypesMisspellWarningShown = false;
           }
-          function isValidElement3(object) {
+          function isValidElement2(object) {
             {
               return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
             }
@@ -18261,11 +18261,11 @@
               if (isArray(node)) {
                 for (var i = 0; i < node.length; i++) {
                   var child = node[i];
-                  if (isValidElement3(child)) {
+                  if (isValidElement2(child)) {
                     validateExplicitKey(child, parentType);
                   }
                 }
-              } else if (isValidElement3(node)) {
+              } else if (isValidElement2(node)) {
                 if (node._store) {
                   node._store.validated = true;
                 }
@@ -18276,7 +18276,7 @@
                     var iterator = iteratorFn.call(node);
                     var step;
                     while (!(step = iterator.next()).done) {
-                      if (isValidElement3(step.value)) {
+                      if (isValidElement2(step.value)) {
                         validateExplicitKey(step.value, parentType);
                       }
                     }
@@ -19121,8 +19121,8 @@
   // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/extension.mjs
   var extension = createExtensionRegistrationFunction();
 
-  // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/components/Banner/Banner.mjs
-  var Banner = createRemoteComponent("Banner");
+  // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/components/Checkbox/Checkbox.mjs
+  var Checkbox = createRemoteComponent("Checkbox");
 
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/render.mjs
   var import_react6 = __toESM(require_react(), 1);
@@ -19452,8 +19452,8 @@ ${errorInfo.componentStack}`);
     }
   };
 
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/components/Banner/Banner.mjs
-  var Banner2 = createRemoteReactComponent(Banner);
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/components/Checkbox/Checkbox.mjs
+  var Checkbox2 = createRemoteReactComponent(Checkbox);
 
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/api.mjs
   var import_react9 = __toESM(require_react(), 1);
@@ -19463,6 +19463,12 @@ ${errorInfo.componentStack}`);
     constructor(...args) {
       super(...args);
       this.name = "CheckoutUIExtensionError";
+    }
+  };
+  var ExtensionHasNoMethodError = class extends Error {
+    constructor(method, target) {
+      super(`Cannot call '${method}()' on target '${target}'. The corresponding property was not found on the API.`);
+      this.name = "ExtensionHasNoMethodError";
     }
   };
 
@@ -19475,38 +19481,110 @@ ${errorInfo.componentStack}`);
     return api;
   }
 
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/translate.mjs
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/subscription.mjs
   var import_react10 = __toESM(require_react(), 1);
-  function useTranslate() {
-    const {
-      i18n
-    } = useApi();
-    const translate = (0, import_react10.useCallback)((...args) => {
-      const translation = i18n.translate(...args);
-      if (!Array.isArray(translation)) {
-        return translation;
-      }
-      return translation.map((part, index) => {
-        if (/* @__PURE__ */ (0, import_react10.isValidElement)(part)) {
-          return /* @__PURE__ */ (0, import_react10.cloneElement)(part, {
-            key: index
-          });
+  function useSubscription(subscription) {
+    const [, setValue] = (0, import_react10.useState)(subscription.current);
+    (0, import_react10.useEffect)(() => {
+      let didUnsubscribe = false;
+      const checkForUpdates = (newValue) => {
+        if (didUnsubscribe) {
+          return;
         }
-        return part;
-      });
-    }, [i18n]);
-    return translate;
+        setValue(newValue);
+      };
+      const unsubscribe = subscription.subscribe(checkForUpdates);
+      checkForUpdates(subscription.current);
+      return () => {
+        didUnsubscribe = true;
+        unsubscribe();
+      };
+    }, [subscription]);
+    return subscription.current;
+  }
+
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/capabilities.mjs
+  function useExtensionCapabilities() {
+    return useSubscription(useApi().extension.capabilities);
+  }
+  function useExtensionCapability(capability) {
+    return useExtensionCapabilities().includes(capability);
+  }
+
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/buyer-journey.mjs
+  var import_react11 = __toESM(require_react(), 1);
+  function useBuyerJourneyIntercept(interceptor) {
+    const api = useApi();
+    if (!("buyerJourney" in api)) {
+      throw new ExtensionHasNoMethodError("buyerJourney", api.extension.target);
+    }
+    const interceptorRef = (0, import_react11.useRef)(interceptor);
+    interceptorRef.current = interceptor;
+    return (0, import_react11.useEffect)(() => {
+      const teardownPromise = api.buyerJourney.intercept((interceptorProps) => interceptorRef.current(interceptorProps));
+      return () => {
+        teardownPromise.then((teardown) => teardown()).catch(() => {
+        });
+      };
+    }, [api.buyerJourney]);
+  }
+
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/delivery-groups.mjs
+  function useDeliveryGroups() {
+    const api = useApi();
+    if (!("deliveryGroups" in api)) {
+      throw new ExtensionHasNoMethodError("deliveryGroups", api.extension.target);
+    }
+    return useSubscription(api.deliveryGroups);
   }
 
   // extensions/economy-shipping-checkbox/src/Checkout.jsx
+  var import_react12 = __toESM(require_react());
   var import_jsx_runtime4 = __toESM(require_jsx_runtime());
   var Checkout_default = reactExtension(
     "purchase.checkout.block.render",
     () => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Extension, {})
   );
   function Extension() {
-    const translate = useTranslate();
-    const { extension: extension2 } = useApi();
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Banner2, { title: "economy-shipping-checkbox", children: translate("welcome", { target: extension2.target }) });
+    const deliveryGroups = useDeliveryGroups();
+    const canBlockProgress = useExtensionCapability("block_progress");
+    const SelectedDelivery = deliveryGroups[0].deliveryOptions.filter(({ handle }) => handle == deliveryGroups[0].selectedDeliveryOption.handle);
+    console.log(SelectedDelivery);
+    console.log(SelectedDelivery[0].title === "International Economy" ? true : false);
+    const [error, setError] = (0, import_react12.useState)("");
+    useBuyerJourneyIntercept(
+      ({ canBlockProgress: canBlockProgress2 }) => {
+        return canBlockProgress2 ? {
+          behavior: "block",
+          reason: "Invalid shipping country",
+          errors: [
+            {
+              message: "Sorry, we can only ship to Canada",
+              // Show an error underneath the country code field
+              target: "$.cart.deliveryGroups[0].deliveryAddress.countryCode"
+            },
+            {
+              // In addition, show an error at the page level
+              message: "Please use a different address."
+            }
+          ]
+        } : {
+          behavior: "allow"
+        };
+      }
+    );
+    return SelectedDelivery[0].title === "International Economy" ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+      Checkbox2,
+      {
+        id: "shipping-consent",
+        name: "ShippingConsent",
+        error,
+        onChange: (value) => {
+          value ? setError("") : setError("To continue with your purchase, agree to the international shipping terms.");
+        },
+        children: "I understand that this item is non-refundable, that the customer is responsible for any customs fees and clearance, and that Pendulum will not be able to track the package once it departs from the U.S."
+      }
+    ) : null;
   }
 })();
+//# sourceMappingURL=economy-shipping-checkbox.js.map
