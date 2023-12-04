@@ -7,9 +7,8 @@ api_version = "2023-10"
 
 [[extensions]]
 type = "ui_extension"
-name = "canada-customer-alert"
-handle = "canada-customer-alert"
-network_access = true
+name = "economy-shipping-checkbox"
+handle = "economy-shipping-checkbox"
 
 # Controls where in Shopify your extension will be injected,
 # and the file that contains your extension’s source code. Learn more:
@@ -27,7 +26,7 @@ api_access = true
 # Gives your extension access to make external network calls, using the
 # JavaScript `fetch()` API. Learn more:
 # https://shopify.dev/docs/api/checkout-ui-extensions/unstable/configuration#network-access
-network_access = true
+# network_access = true
 
 # Loads metafields on checkout resources, including the cart,
 # products, customers, and more. Learn more:
@@ -44,26 +43,9 @@ network_access = true
 # your extension. Learn more:
 # https://shopify.dev/docs/api/checkout-ui-extensions/unstable/configuration#settings-definition
 
-[extensions.settings]
-  [[extensions.settings.fields]]
-  key = "title"
-  type = "single_line_text_field"
-  name = "Banner title"
-  description = "Enter a title for the banner."
-  [[extensions.settings.fields]]
-  key = "description"
-  type = "single_line_text_field"
-  name = "Banner description"
-  description = "Enter a description for the banner."
-  [[extensions.settings.fields]]
-  key = "status"
-  type = "single_line_text_field"
-  name = "Banner status"
-    [[extensions.settings.fields.validations]]
-    name = "choices"
-    value = "[\"info\", \"success\", \"warning\", \"critical\"]"
-  [[extensions.settings.fields]]
-  key = "collapsible"
-  type = "boolean"
-  name = "Show collapsible description."
-  description = "Display controls to expand or collapse the banner description."
+# [extensions.settings]
+# [[extensions.settings.fields]]
+# key = "banner_title"
+# type = "single_line_text_field"
+# name = "Banner title"
+# description = "Enter a title for the banner"

@@ -1,0 +1,25 @@
+query RunInput {
+  cart {
+    lines {
+      merchandise {
+        ...on ProductVariant {
+          product{
+            title,
+          }
+        }
+        
+      }
+      quantity
+    }
+    deliveryGroups {
+    deliveryAddress {
+      countryCode
+    }
+    deliveryOptions {
+      handle
+    }
+  }
+    
+  }
+ 
+}
