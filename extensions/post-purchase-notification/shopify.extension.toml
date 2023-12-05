@@ -1,9 +1,10 @@
 type = "checkout_post_purchase"
 name = "post-purchase-notification"
 
-# [[metafields]]
-# namespace = "my-namespace"
-# key = "my-key"
+[[metafields]]
+namespace = "post-purchase-notification"
+key = "show_post_purchase_notification"
+value = false
 
 # [[metafields]]
 # namespace = "my-namespace"

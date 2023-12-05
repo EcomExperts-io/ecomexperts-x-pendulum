@@ -12,15 +12,7 @@ import React from 'react';
 import {
   extend,
   render,
-  BlockStack,
-  Button,
-  CalloutBanner,
-  Heading,
-  Image,
-  Layout,
-  TextBlock,
-  TextContainer,
-  View,
+  Banner,
 } from "@shopify/post-purchase-ui-extensions-react";
 
 /**
@@ -33,7 +25,7 @@ import {
  extend("Checkout::PostPurchase::ShouldRender", async ({ storage }) => {
   const initialState = await getRenderData();
   const render = true;
-
+  
   if (render) {
     // Saves initial state, provided to `Render` via `storage.initialData`
     await storage.update(initialState);
@@ -62,45 +54,18 @@ render("Checkout::PostPurchase::Render", App);
 
 // Top-level React component
 export function App({ extensionPoint, storage }) {
-  const initialState = storage.initialData;
 
+  const initialState = storage.initialData;
+  const notificationText = "We are transitioning to a new operations system, so apologies if you receive duplicative shipment notifications from the team. You can reach out to our Customer Care team any time if there is any confusion."
+  const show_post_purchase_notification = true;
+  
+ 
   return (
-      <BlockStack spacing="loose">
-      <CalloutBanner title="Post-purchase extension template">
-          Use this template as a starting point to build a great post-purchase
-          extension.
-      </CalloutBanner>
-      <Layout
-          maxInlineSize={0.95}
-          media={[
-          { viewportSize: "small", sizes: [1, 30, 1] },
-          { viewportSize: "medium", sizes: [300, 30, 0.5] },
-          { viewportSize: "large", sizes: [400, 30, 0.33] },
-          ]}
-      >
-          <View>
-          <Image source="https://cdn.shopify.com/static/images/examples/img-placeholder-1120x1120.png" />
-          </View>
-          <View />
-          <BlockStack spacing="xloose">
-          <TextContainer>
-              <Heading>Post-purchase extension</Heading>
-              <TextBlock>
-              Here you can cross-sell other products, request a product review
-              based on a previous purchase, and much more.
-              </TextBlock>
-          </TextContainer>
-          <Button
-              submit
-              onPress={() => {
-              // eslint-disable-next-line no-console
-              console.log(`Extension point ${extensionPoint}`, initialState);
-              }}
-          >
-              Primary button
-          </Button>
-          </BlockStack>
-      </Layout>
-      </BlockStack>
+    show_post_purchase_notification ?
+    <Banner
+    status="critical"
+    title={notificationText}
+    />:
+    null
   );
 }
