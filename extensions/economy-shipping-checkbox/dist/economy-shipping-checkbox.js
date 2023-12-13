@@ -1141,7 +1141,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef2(initialValue) {
+          function useRef3(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
@@ -1934,7 +1934,7 @@
           exports.useLayoutEffect = useLayoutEffect;
           exports.useMemo = useMemo2;
           exports.useReducer = useReducer;
-          exports.useRef = useRef2;
+          exports.useRef = useRef3;
           exports.useState = useState3;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
@@ -19121,8 +19121,8 @@
   // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/extension.mjs
   var extension = createExtensionRegistrationFunction();
 
-  // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/components/Banner/Banner.mjs
-  var Banner = createRemoteComponent("Banner");
+  // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/components/Checkbox/Checkbox.mjs
+  var Checkbox = createRemoteComponent("Checkbox");
 
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/render.mjs
   var import_react6 = __toESM(require_react(), 1);
@@ -19452,8 +19452,8 @@ ${errorInfo.componentStack}`);
     }
   };
 
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/components/Banner/Banner.mjs
-  var Banner2 = createRemoteReactComponent(Banner);
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/components/Checkbox/Checkbox.mjs
+  var Checkbox2 = createRemoteReactComponent(Checkbox);
 
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/api.mjs
   var import_react9 = __toESM(require_react(), 1);
@@ -19465,10 +19465,10 @@ ${errorInfo.componentStack}`);
       this.name = "CheckoutUIExtensionError";
     }
   };
-  var ScopeNotGrantedError = class extends Error {
-    constructor(...args) {
-      super(...args);
-      this.name = "ScopeNotGrantedError";
+  var ExtensionHasNoMethodError = class extends Error {
+    constructor(method, target) {
+      super(`Cannot call '${method}()' on target '${target}'. The corresponding property was not found on the API.`);
+      this.name = "ExtensionHasNoMethodError";
     }
   };
 
@@ -19503,71 +19503,88 @@ ${errorInfo.componentStack}`);
     return subscription.current;
   }
 
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/shipping-address.mjs
-  function useShippingAddress() {
-    const shippingAddress = useApi().shippingAddress;
-    if (!shippingAddress) {
-      throw new ScopeNotGrantedError("Using shipping address requires having shipping address permissions granted to your app.");
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/capabilities.mjs
+  function useExtensionCapabilities() {
+    return useSubscription(useApi().extension.capabilities);
+  }
+  function useExtensionCapability(capability) {
+    return useExtensionCapabilities().includes(capability);
+  }
+
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/buyer-journey.mjs
+  var import_react11 = __toESM(require_react(), 1);
+  function useBuyerJourneyIntercept(interceptor) {
+    const api = useApi();
+    if (!("buyerJourney" in api)) {
+      throw new ExtensionHasNoMethodError("buyerJourney", api.extension.target);
     }
-    return useSubscription(shippingAddress);
+    const interceptorRef = (0, import_react11.useRef)(interceptor);
+    interceptorRef.current = interceptor;
+    return (0, import_react11.useEffect)(() => {
+      const teardownPromise = api.buyerJourney.intercept((interceptorProps) => interceptorRef.current(interceptorProps));
+      return () => {
+        teardownPromise.then((teardown) => teardown()).catch(() => {
+        });
+      };
+    }, [api.buyerJourney]);
   }
 
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/cart-lines.mjs
-  function useCartLines() {
-    const {
-      lines
-    } = useApi();
-    return useSubscription(lines);
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/delivery-groups.mjs
+  function useDeliveryGroups() {
+    const api = useApi();
+    if (!("deliveryGroups" in api)) {
+      throw new ExtensionHasNoMethodError("deliveryGroups", api.extension.target);
+    }
+    return useSubscription(api.deliveryGroups);
   }
 
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/settings.mjs
-  function useSettings() {
-    const settings = useSubscription(useApi().settings);
-    return settings;
-  }
-
-  // extensions/canada-customer-alert/src/Checkout.jsx
-  var import_react11 = __toESM(require_react());
+  // extensions/economy-shipping-checkbox/src/Checkout.jsx
+  var import_react12 = __toESM(require_react());
   var import_jsx_runtime4 = __toESM(require_jsx_runtime());
   var Checkout_default = reactExtension(
     "purchase.checkout.block.render",
     () => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Extension, {})
   );
   function Extension() {
-    var _a, _b;
-    const { countryCode } = useShippingAddress();
-    const cartLines = useCartLines();
-    const [isFlag, setIsFlag] = (0, import_react11.useState)(false);
-    const { description, collapsible } = useSettings();
-    (0, import_react11.useEffect)(() => {
-      if (countryCode == "CA") {
-        for (const item of cartLines) {
-          console.log(item);
-          const title2 = item.merchandise.title;
-          const variant = item.merchandise.selectedOptions.length && item.merchandise.selectedOptions[0].value;
-          const quantity = item.quantity;
-          if (!variant.includes("Single")) {
-            setIsFlag(true);
-            console.log("true: single", true);
-            break;
+    const deliveryGroups = useDeliveryGroups();
+    const SelectedDelivery = deliveryGroups[0].deliveryOptions.filter(({ handle }) => handle == deliveryGroups[0].selectedDeliveryOption.handle);
+    const [error, setError] = (0, import_react12.useState)("");
+    const [isChecked, setChecked] = (0, import_react12.useState)(false);
+    const errorText = "To continue with your purchase, agree to the international shipping terms.";
+    const canBlockProgress = useExtensionCapability("block_progress");
+    useBuyerJourneyIntercept(({ canBlockProgress: canBlockProgress2 }) => {
+      if (canBlockProgress2 && !isChecked) {
+        return {
+          behavior: "block",
+          reason: errorText,
+          perform: (result) => {
+            if (result.behavior === "block") {
+              setError(errorText);
+            }
           }
-          if (!(title2.includes("Akkermansia") || title2 === "Butyricum" || title2 === "Pendulum Metabolic Daily")) {
-            console.log("true: variant", true);
-            setIsFlag(true);
-            break;
-          }
-          if (quantity > 3) {
-            console.log("true: qunatity", true);
-            setIsFlag(true);
-            break;
-          }
-        }
-      } else {
-        setIsFlag(false);
+        };
       }
-    }, [countryCode, cartLines]);
-    const status = (_a = useSettings().merchantStatus) != null ? _a : "info";
-    const title = (_b = useSettings().merchantTitle) != null ? _b : "";
-    return isFlag ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Banner2, { title, status, collapsible, children: description }) : null;
+      return {
+        behavior: "allow",
+        perform: () => {
+          setError("");
+        }
+      };
+    });
+    const handleChange = (value) => {
+      setChecked((prev) => !prev);
+      value ? setError("") : setError(errorText);
+    };
+    return SelectedDelivery[0].title === "International Economy" ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+      Checkbox2,
+      {
+        id: "shipping-consent",
+        name: "ShippingConsent",
+        error,
+        required: canBlockProgress,
+        onChange: handleChange,
+        children: "I understand that this item is non-refundable, that the customer is responsible for any customs fees and clearance, and that Pendulum will not be able to track the package once it departs from the U.S."
+      }
+    ) : null;
   }
 })();
