@@ -1,0 +1,27 @@
+query RunInput {
+  cart {
+    lines {
+      id
+      cost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+      }
+      # Cart line attribute to get the fabric length provided by the customer
+      freeMealPlan: attribute(key: "FreeMealPlan") {
+        value
+      }
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          id
+          title
+          product{
+            title
+          }
+        }
+      }
+    }
+  }
+}
