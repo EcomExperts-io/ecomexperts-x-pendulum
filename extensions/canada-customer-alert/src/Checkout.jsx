@@ -31,7 +31,7 @@ function Extension() {
 
       for(const item of cartLines){
 
-        console.log(item)
+        
         const title = item.merchandise.title
         const variant = item.merchandise.selectedOptions.length && item.merchandise.selectedOptions[0].value
         const quantity = item.quantity

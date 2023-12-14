@@ -16,7 +16,9 @@ export default reactExtension(
 function Extension() {
 
   const deliveryGroups = useDeliveryGroups()
-  const SelectedDelivery = deliveryGroups[0].deliveryOptions.filter(({handle})=>handle == deliveryGroups[0].selectedDeliveryOption.handle)
+
+  
+  const SelectedDelivery = deliveryGroups.length && deliveryGroups[0].deliveryOptions.filter(({handle})=>handle == deliveryGroups[0].selectedDeliveryOption.handle)
   const [error, setError] = useState("")
   const [isChecked, setChecked] = useState(false)
 

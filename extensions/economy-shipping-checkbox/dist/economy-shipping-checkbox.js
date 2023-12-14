@@ -19547,7 +19547,7 @@ ${errorInfo.componentStack}`);
   );
   function Extension() {
     const deliveryGroups = useDeliveryGroups();
-    const SelectedDelivery = deliveryGroups[0].deliveryOptions.filter(({ handle }) => handle == deliveryGroups[0].selectedDeliveryOption.handle);
+    const SelectedDelivery = deliveryGroups.length && deliveryGroups[0].deliveryOptions.filter(({ handle }) => handle == deliveryGroups[0].selectedDeliveryOption.handle);
     const [error, setError] = (0, import_react12.useState)("");
     const [isChecked, setChecked] = (0, import_react12.useState)(false);
     const errorText = "To continue with your purchase, agree to the international shipping terms.";
