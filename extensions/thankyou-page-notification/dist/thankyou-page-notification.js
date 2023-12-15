@@ -1119,7 +1119,7 @@
             }
             return dispatcher;
           }
-          function useContext3(Context) {
+          function useContext2(Context) {
             var dispatcher = resolveDispatcher();
             {
               if (Context._context !== void 0) {
@@ -1133,7 +1133,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState3(initialState) {
+          function useState(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1145,7 +1145,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect3(create, deps) {
+          function useEffect(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1924,10 +1924,10 @@
           exports.startTransition = startTransition;
           exports.unstable_act = act;
           exports.useCallback = useCallback;
-          exports.useContext = useContext3;
+          exports.useContext = useContext2;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect3;
+          exports.useEffect = useEffect;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
@@ -1935,7 +1935,7 @@
           exports.useMemo = useMemo2;
           exports.useReducer = useReducer;
           exports.useRef = useRef2;
-          exports.useState = useState3;
+          exports.useState = useState;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -19455,117 +19455,20 @@ ${errorInfo.componentStack}`);
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/components/Banner/Banner.mjs
   var Banner2 = createRemoteReactComponent(Banner);
 
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/api.mjs
-  var import_react9 = __toESM(require_react(), 1);
-
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/errors.mjs
-  var CheckoutUIExtensionError = class extends Error {
-    constructor(...args) {
-      super(...args);
-      this.name = "CheckoutUIExtensionError";
-    }
-  };
-  var ScopeNotGrantedError = class extends Error {
-    constructor(...args) {
-      super(...args);
-      this.name = "ScopeNotGrantedError";
-    }
-  };
-
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/api.mjs
-  function useApi(_target) {
-    const api = (0, import_react9.useContext)(ExtensionApiContext);
-    if (api == null) {
-      throw new CheckoutUIExtensionError("You can only call this hook when running as a UI extension.");
-    }
-    return api;
-  }
-
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/subscription.mjs
-  var import_react10 = __toESM(require_react(), 1);
-  function useSubscription(subscription) {
-    const [, setValue] = (0, import_react10.useState)(subscription.current);
-    (0, import_react10.useEffect)(() => {
-      let didUnsubscribe = false;
-      const checkForUpdates = (newValue) => {
-        if (didUnsubscribe) {
-          return;
-        }
-        setValue(newValue);
-      };
-      const unsubscribe = subscription.subscribe(checkForUpdates);
-      checkForUpdates(subscription.current);
-      return () => {
-        didUnsubscribe = true;
-        unsubscribe();
-      };
-    }, [subscription]);
-    return subscription.current;
-  }
-
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/shipping-address.mjs
-  function useShippingAddress() {
-    const shippingAddress = useApi().shippingAddress;
-    if (!shippingAddress) {
-      throw new ScopeNotGrantedError("Using shipping address requires having shipping address permissions granted to your app.");
-    }
-    return useSubscription(shippingAddress);
-  }
-
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/cart-lines.mjs
-  function useCartLines() {
-    const {
-      lines
-    } = useApi();
-    return useSubscription(lines);
-  }
-
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/settings.mjs
-  function useSettings() {
-    const settings = useSubscription(useApi().settings);
-    return settings;
-  }
-
-  // extensions/canada-customer-alert/src/Checkout.jsx
-  var import_react11 = __toESM(require_react());
+  // extensions/thankyou-page-notification/src/Checkout.jsx
   var import_jsx_runtime4 = __toESM(require_jsx_runtime());
-  var Checkout_default = reactExtension(
-    "purchase.checkout.block.render",
+  var thankYouPage = reactExtension(
+    "purchase.thank-you.block.render",
     () => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Extension, {})
   );
   function Extension() {
-    const { countryCode } = useShippingAddress();
-    const cartLines = useCartLines();
-    const [isFlag, setIsFlag] = (0, import_react11.useState)(false);
-    (0, import_react11.useEffect)(() => {
-      if (countryCode == "CA") {
-        for (const item of cartLines) {
-          const title2 = item.merchandise.title;
-          const variant = item.merchandise.selectedOptions.length && item.merchandise.selectedOptions[0].value;
-          const quantity = item.quantity;
-          if (!variant.includes("Single")) {
-            setIsFlag(true);
-            console.log("true: single", true);
-            break;
-          }
-          if (!(title2.includes("Akkermansia") || title2 === "Butyricum" || title2 === "Pendulum Metabolic Daily")) {
-            console.log("true: variant", true);
-            setIsFlag(true);
-            break;
-          }
-          if (quantity > 3) {
-            console.log("true: qunatity", true);
-            setIsFlag(true);
-            break;
-          }
-        }
-      } else {
-        setIsFlag(false);
+    const notificationText = "We are transitioning to a new operations system, so apologies if you receive duplicative shipment notifications from the team. You can reach out to our Customer Care team any time if there is any confusion.";
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+      Banner2,
+      {
+        status: "critical",
+        title: notificationText
       }
-    }, [countryCode, cartLines]);
-    const { title: merchantTitle, description, collapsible, status: merchantStatus } = useSettings();
-    const status = merchantStatus != null ? merchantStatus : "info";
-    const title = merchantTitle != null ? merchantTitle : "";
-    return isFlag ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Banner2, { status, title: description }) : null;
+    );
   }
 })();

@@ -2429,9 +2429,9 @@
         module.exports = function $$$reconciler($$$hostConfig) {
           var exports2 = {};
           "use strict";
-          var React = require_react();
+          var React2 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -6229,7 +6229,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React.Component().refs;
+          var emptyRefsObject = new React2.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -17540,7 +17540,7 @@
       if (true) {
         (function() {
           "use strict";
-          var React = require_react();
+          var React2 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -17566,7 +17566,7 @@
             }
             return null;
           }
-          var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -18402,10 +18402,10 @@
             }
           }
           var jsx5 = jsxWithValidationDynamic;
-          var jsxs = jsxWithValidationStatic;
+          var jsxs2 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
           exports.jsx = jsx5;
-          exports.jsxs = jsxs;
+          exports.jsxs = jsxs2;
         })();
       }
     }
@@ -19121,8 +19121,17 @@
   // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/extension.mjs
   var extension = createExtensionRegistrationFunction();
 
-  // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/components/Banner/Banner.mjs
-  var Banner = createRemoteComponent("Banner");
+  // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/components/BlockStack/BlockStack.mjs
+  var BlockStack = createRemoteComponent("BlockStack");
+
+  // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/components/Button/Button.mjs
+  var Button = createRemoteComponent("Button");
+
+  // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/components/Link/Link.mjs
+  var Link = createRemoteComponent("Link");
+
+  // node_modules/@shopify/ui-extensions/build/esm/surfaces/checkout/components/Text/Text.mjs
+  var Text = createRemoteComponent("Text");
 
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/render.mjs
   var import_react6 = __toESM(require_react(), 1);
@@ -19452,11 +19461,24 @@ ${errorInfo.componentStack}`);
     }
   };
 
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/components/Banner/Banner.mjs
-  var Banner2 = createRemoteReactComponent(Banner);
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/components/BlockStack/BlockStack.mjs
+  var BlockStack2 = createRemoteReactComponent(BlockStack);
+
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/components/Button/Button.mjs
+  var Button2 = createRemoteReactComponent(Button, {
+    fragmentProps: ["overlay"]
+  });
+
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/components/Link/Link.mjs
+  var Link2 = createRemoteReactComponent(Link, {
+    fragmentProps: ["overlay"]
+  });
+
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/components/Text/Text.mjs
+  var Text2 = createRemoteReactComponent(Text);
 
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/api.mjs
-  var import_react9 = __toESM(require_react(), 1);
+  var import_react12 = __toESM(require_react(), 1);
 
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/errors.mjs
   var CheckoutUIExtensionError = class extends Error {
@@ -19474,7 +19496,7 @@ ${errorInfo.componentStack}`);
 
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/api.mjs
   function useApi(_target) {
-    const api = (0, import_react9.useContext)(ExtensionApiContext);
+    const api = (0, import_react12.useContext)(ExtensionApiContext);
     if (api == null) {
       throw new CheckoutUIExtensionError("You can only call this hook when running as a UI extension.");
     }
@@ -19482,10 +19504,10 @@ ${errorInfo.componentStack}`);
   }
 
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/subscription.mjs
-  var import_react10 = __toESM(require_react(), 1);
+  var import_react13 = __toESM(require_react(), 1);
   function useSubscription(subscription) {
-    const [, setValue] = (0, import_react10.useState)(subscription.current);
-    (0, import_react10.useEffect)(() => {
+    const [, setValue] = (0, import_react13.useState)(subscription.current);
+    (0, import_react13.useEffect)(() => {
       let didUnsubscribe = false;
       const checkForUpdates = (newValue) => {
         if (didUnsubscribe) {
@@ -19503,15 +19525,6 @@ ${errorInfo.componentStack}`);
     return subscription.current;
   }
 
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/shipping-address.mjs
-  function useShippingAddress() {
-    const shippingAddress = useApi().shippingAddress;
-    if (!shippingAddress) {
-      throw new ScopeNotGrantedError("Using shipping address requires having shipping address permissions granted to your app.");
-    }
-    return useSubscription(shippingAddress);
-  }
-
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/cart-lines.mjs
   function useCartLines() {
     const {
@@ -19520,52 +19533,129 @@ ${errorInfo.componentStack}`);
     return useSubscription(lines);
   }
 
-  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/settings.mjs
-  function useSettings() {
-    const settings = useSubscription(useApi().settings);
-    return settings;
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/buyer-identity.mjs
+  function useCustomer() {
+    const buyerIdentity = useApi().buyerIdentity;
+    if (!buyerIdentity) {
+      throw new ScopeNotGrantedError("Using buyer identity requires having personal customer data permissions granted to your app.");
+    }
+    return useSubscription(buyerIdentity.customer);
   }
 
-  // extensions/canada-customer-alert/src/Checkout.jsx
-  var import_react11 = __toESM(require_react());
+  // extensions/typeform-survey-button/src/Checkout.jsx
+  var import_react14 = __toESM(require_react());
   var import_jsx_runtime4 = __toESM(require_jsx_runtime());
-  var Checkout_default = reactExtension(
-    "purchase.checkout.block.render",
+  var thankYouPage = reactExtension(
+    "purchase.thank-you.block.render",
     () => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Extension, {})
   );
   function Extension() {
-    const { countryCode } = useShippingAddress();
-    const cartLines = useCartLines();
-    const [isFlag, setIsFlag] = (0, import_react11.useState)(false);
-    (0, import_react11.useEffect)(() => {
-      if (countryCode == "CA") {
-        for (const item of cartLines) {
-          const title2 = item.merchandise.title;
-          const variant = item.merchandise.selectedOptions.length && item.merchandise.selectedOptions[0].value;
-          const quantity = item.quantity;
-          if (!variant.includes("Single")) {
-            setIsFlag(true);
-            console.log("true: single", true);
-            break;
+    const [hasPGC, setHasPGC] = (0, import_react14.useState)(0);
+    const [hasAKK, setHasAKK] = (0, import_react14.useState)(0);
+    const [hasPMD, setHasPMD] = (0, import_react14.useState)(0);
+    const [hasGIR, setHasGIR] = (0, import_react14.useState)(0);
+    const [hasWSProducts, setHasWSProducts] = (0, import_react14.useState)(0);
+    const [hasNutrition, setHasNutrition] = (0, import_react14.useState)(0);
+    const [hasOneTimeProducts, setOneTimeProducts] = (0, import_react14.useState)(0);
+    const [noSurvey, setNoSurvey] = (0, import_react14.useState)(0);
+    const [notHCP, setNotHCP] = (0, import_react14.useState)(0);
+    const [hasNutritionDefault, setHasNutritionDefault] = (0, import_react14.useState)(0);
+    const [hasNutritionPremium, setHasNutritionPremium] = (0, import_react14.useState)(0);
+    const [hasNutritionJennifer, setHasNutritionJennifer] = (0, import_react14.useState)(0);
+    const [hasNutritionTara, setHasNutritionTara] = (0, import_react14.useState)(0);
+    const [surveyLink, setSurveyLink] = (0, import_react14.useState)("");
+    const [surveyID, setSurveyID] = (0, import_react14.useState)(0);
+    const [email, setEmail] = (0, import_react14.useState)(0);
+    const { query } = useApi();
+    let customer = useCustomer();
+    let cartLines = useCartLines();
+    (0, import_react14.useEffect)(() => {
+      function apiCalls() {
+        return __async(this, null, function* () {
+          var _a, _b, _c, _d, _e, _f;
+          let linesLength = cartLines.length;
+          for (var i = 0; i < linesLength; ++i) {
+            let variantId = cartLines[i].merchandise.id;
+            let productIdRaw = cartLines[i].merchandise.product.id;
+            let productIdRawSplit = productIdRaw.split("/");
+            let productId = productIdRawSplit[productIdRawSplit.length - 1];
+            if (productId == "6546487541814") {
+              setHasNutrition(true);
+            }
+            const data = yield query(
+              `{
+          
+              node(id:"${variantId}") {
+                ...on ProductVariant {
+                  sku
+                }
+              }
+            
+          }`
+            );
+            let sku = (_b = (_a = data == null ? void 0 : data.data) == null ? void 0 : _a.node) == null ? void 0 : _b.sku;
+            if (sku) {
+              if (sku.includes("PGC-01-MEM")) {
+                setHasPGC(() => true);
+                setSurveyLink(() => "https://brsjysuxsfj.typeform.com/to/R2UREAFP?email_address=");
+              } else if (sku.includes("AMUC-01-MEM")) {
+                setHasAKK(() => true);
+                setSurveyLink(() => "https://brsjysuxsfj.typeform.com/to/T91lkA8l?email_address=");
+              } else if (sku.includes("PMD-01-MEM")) {
+                setHasPMD(() => true);
+                setSurveyLink(() => "https://brsjysuxsfj.typeform.com/to/nYy9pgW2?email_address=");
+              } else if (sku.includes("GIR-01-MEM")) {
+                setHasGIR(() => true);
+                setSurveyLink(() => "https://brsjysuxsfj.typeform.com/to/cIKupM9y?email_address=");
+              } else if (sku.includes("PGC-03-OTP") || sku.includes("AMUC-01-OTP") || sku.includes("GIR-01-OTP") || sku.includes("PMD-01-OTP")) {
+                setOneTimeProducts(() => true);
+                setSurveyLink(() => true);
+              } else {
+                setNoSurvey(() => true);
+              }
+              if (sku.includes("-US")) {
+                setHasWSProducts(() => true);
+              }
+            }
           }
-          if (!(title2.includes("Akkermansia") || title2 === "Butyricum" || title2 === "Pendulum Metabolic Daily")) {
-            console.log("true: variant", true);
-            setIsFlag(true);
-            break;
+          let customerId = customer == null ? void 0 : customer.id;
+          if (customerId) {
+            const data = yield query(
+              `{
+          customer(id: "${customerId}"){
+            tags
+            numberOfOrders
+            email
           }
-          if (quantity > 3) {
-            console.log("true: qunatity", true);
-            setIsFlag(true);
-            break;
+        }`
+            );
+            console.log(data);
+            let tags = (_d = (_c = data == null ? void 0 : data.data) == null ? void 0 : _c.customer) == null ? void 0 : _d.tags;
+            let ordersCount = (_f = (_e = data == null ? void 0 : data.data) == null ? void 0 : _e.customer) == null ? void 0 : _f.numberOfOrders;
+            setEmail(() => {
+              var _a2, _b2;
+              return (_b2 = (_a2 = data == null ? void 0 : data.data) == null ? void 0 : _a2.customer) == null ? void 0 : _b2.email;
+            });
+            if ((tags == null ? void 0 : tags.length) && (tags == null ? void 0 : tags.includes("WS")) && hasWSProducts) {
+              if (ordersCount > 1) {
+                setSurveyID(() => "ByDeZJHV");
+                setNotHCP(() => false);
+              } else {
+                setSurveyID(() => "IQ7fmJKu");
+                setNotHCP(() => false);
+              }
+            }
           }
-        }
-      } else {
-        setIsFlag(false);
+          if (!hasPGC) {
+            setHasNutrition(() => false);
+          }
+        });
       }
-    }, [countryCode, cartLines]);
-    const { title: merchantTitle, description, collapsible, status: merchantStatus } = useSettings();
-    const status = merchantStatus != null ? merchantStatus : "info";
-    const title = merchantTitle != null ? merchantTitle : "";
-    return isFlag ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Banner2, { status, title: description }) : null;
+      apiCalls();
+    }, []);
+    return surveyLink ? /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(BlockStack2, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Text2, { children: "Please complete 5-second survey so we can better learn." }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Link2, { external: true, to: surveyLink + email, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Button2, { kind: "primary", children: "Take Survey" }) })
+    ] }) : null;
   }
 })();
