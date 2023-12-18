@@ -1,7 +1,5 @@
 import {
   Banner,
-  BlockStack,
-  View,
   useSettings,
   reactExtension,
   useShippingAddress,
@@ -20,10 +18,6 @@ function Extension() {
   const { countryCode } = useShippingAddress()
   const cartLines = useCartLines();
   const [isFlag, setIsFlag] = useState(false);
-
-  
-  const { description, collapsible } = useSettings();
-
 
   useEffect(()=>{
 
@@ -70,17 +64,20 @@ function Extension() {
    
   },[countryCode, cartLines])
 
-  // Set a default status for the banner if a merchant didn't configure the banner in the checkout editor
-  const status = useSettings().merchantStatus ?? 'info';
-  const title = useSettings().merchantTitle ?? '';
+  const {title: merchantTitle, description, collapsible, status: merchantStatus} = useSettings();
+  const status = merchantStatus ?? 'info';
+  const title = merchantTitle ?? '';
 
+  
+
+  // Set a default status for the banner if a merchant didn't configure the banner in the checkout editor
+ 
  
   return (
  
     isFlag ?  
-    <Banner title={title} status={status} collapsible={collapsible}>
-      {description}
-    </Banner> :
+    <Banner status={status} title={description}/>
+    :
     null
    
   );
