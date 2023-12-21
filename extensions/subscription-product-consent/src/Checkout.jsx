@@ -5,6 +5,7 @@ import {
   useExtensionCapability,
   useApplyNoteChange,
   useCartLines,
+  useShippingAddress,
 } from "@shopify/ui-extensions-react/checkout";
 import { useState, useEffect } from "react";
 
@@ -21,9 +22,11 @@ function Extension() {
   const [isSubscription, setSubscription] = useState(false);
   const [error, setError] = useState("");
   const [isChecked, setChecked] = useState(false);
+  const [isAllowed, setAllowed] = useState(false);
+  const [isNotAllowed, setNotAllowed] = useState(false);
   const cartLines = useCartLines();
   const noteChange = useApplyNoteChange();
-
+  const { countryCode } = useShippingAddress()
   //Check if cart has subscription product
   useEffect(() => {
     for (const item of cartLines) {
@@ -34,14 +37,34 @@ function Extension() {
         break;
       }
     }
+    for (const cart_item of cartLines) {
+      const cart_item_title = cart_item.merchandise.title;
+      if(!(cart_item_title.includes("Akkermansia") || cart_item_title === "Butyricum" || cart_item_title === "Pendulum Metabolic Daily")) {
+        setNotAllowed(true);
+      }
+      if((cart_item_title.includes("Akkermansia") || cart_item_title === "Butyricum" || cart_item_title === "Pendulum Metabolic Daily")) {
+        setAllowed(true);
+      }
+    }
   }, []);
-
   //block progress if consent not provided
   const canBlockProgress = useExtensionCapability("block_progress");
   // Use the `buyerJourney` intercept to conditionally block checkout progress
   useBuyerJourneyIntercept(({ canBlockProgress }) => {
     // Validate that the consent
-    if (canBlockProgress && !isChecked) {
+    if(canBlockProgress && isAllowed && isNotAllowed && countryCode == "CA"){
+      console.log('invalid')
+      return {
+        behavior: "block",
+        reason: errorText,
+        perform: (result) => {
+          if (result.behavior === "block") {
+            setError(errorText);
+          }
+        },
+      };
+    }else if (canBlockProgress && !isChecked && isSubscription && countryCode == "CA") {
+      console.log('not allowed')
       return {
         behavior: "block",
         reason: errorText,
@@ -52,7 +75,7 @@ function Extension() {
         },
       };
     }
-
+    console.log('allowed')
     return {
       behavior: "allow",
       perform: () => {

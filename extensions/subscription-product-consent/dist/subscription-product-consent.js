@@ -19465,6 +19465,12 @@ ${errorInfo.componentStack}`);
       this.name = "CheckoutUIExtensionError";
     }
   };
+  var ScopeNotGrantedError = class extends Error {
+    constructor(...args) {
+      super(...args);
+      this.name = "ScopeNotGrantedError";
+    }
+  };
   var ExtensionHasNoMethodError = class extends Error {
     constructor(method, target) {
       super(`Cannot call '${method}()' on target '${target}'. The corresponding property was not found on the API.`);
@@ -19538,6 +19544,15 @@ ${errorInfo.componentStack}`);
     throw new ExtensionHasNoMethodError("applyNoteChange", api.extension.target);
   }
 
+  // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/shipping-address.mjs
+  function useShippingAddress() {
+    const shippingAddress = useApi().shippingAddress;
+    if (!shippingAddress) {
+      throw new ScopeNotGrantedError("Using shipping address requires having shipping address permissions granted to your app.");
+    }
+    return useSubscription(shippingAddress);
+  }
+
   // node_modules/@shopify/ui-extensions-react/build/esm/surfaces/checkout/hooks/cart-lines.mjs
   function useCartLines() {
     const {
@@ -19556,8 +19571,11 @@ ${errorInfo.componentStack}`);
     const [isSubscription, setSubscription] = (0, import_react12.useState)(false);
     const [error, setError] = (0, import_react12.useState)("");
     const [isChecked, setChecked] = (0, import_react12.useState)(false);
+    const [isAllowed, setAllowed] = (0, import_react12.useState)(false);
+    const [isNotAllowed, setNotAllowed] = (0, import_react12.useState)(false);
     const cartLines = useCartLines();
     const noteChange = useApplyNoteChange();
+    const { countryCode } = useShippingAddress();
     (0, import_react12.useEffect)(() => {
       for (const item of cartLines) {
         const subtitle = item.merchandise.subtitle;
@@ -19566,10 +19584,31 @@ ${errorInfo.componentStack}`);
           break;
         }
       }
+      for (const cart_item of cartLines) {
+        const cart_item_title = cart_item.merchandise.title;
+        if (!(cart_item_title.includes("Akkermansia") || cart_item_title === "Butyricum" || cart_item_title === "Pendulum Metabolic Daily")) {
+          setNotAllowed(true);
+        }
+        if (cart_item_title.includes("Akkermansia") || cart_item_title === "Butyricum" || cart_item_title === "Pendulum Metabolic Daily") {
+          setAllowed(true);
+        }
+      }
     }, []);
     const canBlockProgress = useExtensionCapability("block_progress");
     useBuyerJourneyIntercept(({ canBlockProgress: canBlockProgress2 }) => {
-      if (canBlockProgress2 && !isChecked) {
+      if (canBlockProgress2 && isAllowed && isNotAllowed && countryCode == "CA") {
+        console.log("invalid");
+        return {
+          behavior: "block",
+          reason: errorText,
+          perform: (result) => {
+            if (result.behavior === "block") {
+              setError(errorText);
+            }
+          }
+        };
+      } else if (canBlockProgress2 && !isChecked && isSubscription && countryCode == "CA") {
+        console.log("not allowed");
         return {
           behavior: "block",
           reason: errorText,
@@ -19580,6 +19619,7 @@ ${errorInfo.componentStack}`);
           }
         };
       }
+      console.log("allowed");
       return {
         behavior: "allow",
         perform: () => {

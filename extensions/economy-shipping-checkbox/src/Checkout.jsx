@@ -29,7 +29,7 @@ function Extension() {
    // Use the `buyerJourney` intercept to conditionally block checkout progress
    useBuyerJourneyIntercept(({ canBlockProgress }) => {
     // Validate that the age of the buyer is known, and that they're old enough to complete the purchase
-    if (canBlockProgress && !isChecked) {
+    if (canBlockProgress && !isChecked && SelectedDelivery[0]?.title === "International Economy") {
       return {
         behavior: "block",
         reason: errorText,
@@ -57,7 +57,7 @@ function Extension() {
 
 
   return (
-    SelectedDelivery[0].title === "International Economy" ?
+    SelectedDelivery[0]?.title === "International Economy" ?
     <Checkbox 
     id="shipping-consent" 
     name="ShippingConsent"
