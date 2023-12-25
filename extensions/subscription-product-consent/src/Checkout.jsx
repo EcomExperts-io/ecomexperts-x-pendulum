@@ -24,6 +24,7 @@ function Extension() {
   const [isChecked, setChecked] = useState(false);
   const [isAllowed, setAllowed] = useState(false);
   const [isNotAllowed, setNotAllowed] = useState(false);
+  const [variantNotAllowed, setVariantNotAllowed] = useState(false);
   const cartLines = useCartLines();
   const noteChange = useApplyNoteChange();
   const { countryCode } = useShippingAddress()
@@ -31,7 +32,6 @@ function Extension() {
   useEffect(() => {
     for (const item of cartLines) {
       const subtitle = item.merchandise.subtitle;
-
       if (subtitle && subtitle.includes("Membership")) {
         setSubscription(true);
         break;
@@ -39,15 +39,21 @@ function Extension() {
     }
     for (const cart_item of cartLines) {
       const cart_item_title = cart_item.merchandise.title;
-      if(!(cart_item_title.includes("Akkermansia") || cart_item_title === "Butyricum" || cart_item_title === "Pendulum Metabolic Daily")) {
+      const cart_item_subtitle = cart_item.merchandise.subtitle;
+
+      if(!(cart_item_title === "Akkermansia" || cart_item_title === "Butyricum" || cart_item_title === "Metabolic Daily" || cart_item_title === "Polyphenol Booster 3 Month Supply")) {
         setNotAllowed(true);
       }
-      if((cart_item_title.includes("Akkermansia") || cart_item_title === "Butyricum" || cart_item_title === "Pendulum Metabolic Daily")) {
+      if((cart_item_title === "Akkermansia" || cart_item_title === "Butyricum" || cart_item_title === "Metabolic Daily" || cart_item_title === "Polyphenol Booster 3 Month Supply")) {
         setAllowed(true);
       }
+      if(cart_item_subtitle && !(cart_item_subtitle.includes('Membership (3-month supply)') || cart_item_subtitle.includes('Single Bottle'))){
+        console.log(cart_item_subtitle,'csb');
+        setVariantNotAllowed(true)
+      }
     }
-  }, []);
-  //block progress if consent not provided
+  }, [cartLines]);
+  //block progress if consent not provided or conditions not matched
   const canBlockProgress = useExtensionCapability("block_progress");
   // Use the `buyerJourney` intercept to conditionally block checkout progress
   useBuyerJourneyIntercept(({ canBlockProgress }) => {
@@ -63,7 +69,18 @@ function Extension() {
           }
         },
       };
-    }else if (canBlockProgress && !isChecked && isSubscription && countryCode == "CA") {
+    }else if(countryCode == "CA" && (isNotAllowed || variantNotAllowed)){
+      console.log('ca invalid')
+      return {
+        behavior: "block",
+        reason: errorText,
+        perform: (result) => {
+          if (result.behavior === "block") {
+            setError(errorText);
+          }
+        },
+      };
+    }else if (canBlockProgress && !isChecked && isSubscription ) {
       console.log('not allowed')
       return {
         behavior: "block",

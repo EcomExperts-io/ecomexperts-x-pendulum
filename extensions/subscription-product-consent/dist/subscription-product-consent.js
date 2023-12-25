@@ -19573,6 +19573,7 @@ ${errorInfo.componentStack}`);
     const [isChecked, setChecked] = (0, import_react12.useState)(false);
     const [isAllowed, setAllowed] = (0, import_react12.useState)(false);
     const [isNotAllowed, setNotAllowed] = (0, import_react12.useState)(false);
+    const [variantNotAllowed, setVariantNotAllowed] = (0, import_react12.useState)(false);
     const cartLines = useCartLines();
     const noteChange = useApplyNoteChange();
     const { countryCode } = useShippingAddress();
@@ -19586,14 +19587,19 @@ ${errorInfo.componentStack}`);
       }
       for (const cart_item of cartLines) {
         const cart_item_title = cart_item.merchandise.title;
-        if (!(cart_item_title.includes("Akkermansia") || cart_item_title === "Butyricum" || cart_item_title === "Pendulum Metabolic Daily")) {
+        const cart_item_subtitle = cart_item.merchandise.subtitle;
+        if (!(cart_item_title === "Akkermansia" || cart_item_title === "Butyricum" || cart_item_title === "Metabolic Daily" || cart_item_title === "Polyphenol Booster 3 Month Supply")) {
           setNotAllowed(true);
         }
-        if (cart_item_title.includes("Akkermansia") || cart_item_title === "Butyricum" || cart_item_title === "Pendulum Metabolic Daily") {
+        if (cart_item_title === "Akkermansia" || cart_item_title === "Butyricum" || cart_item_title === "Metabolic Daily" || cart_item_title === "Polyphenol Booster 3 Month Supply") {
           setAllowed(true);
         }
+        if (cart_item_subtitle && !(cart_item_subtitle.includes("Membership (3-month supply)") || cart_item_subtitle.includes("Single Bottle"))) {
+          console.log(cart_item_subtitle, "csb");
+          setVariantNotAllowed(true);
+        }
       }
-    }, []);
+    }, [cartLines]);
     const canBlockProgress = useExtensionCapability("block_progress");
     useBuyerJourneyIntercept(({ canBlockProgress: canBlockProgress2 }) => {
       if (canBlockProgress2 && isAllowed && isNotAllowed && countryCode == "CA") {
@@ -19607,7 +19613,18 @@ ${errorInfo.componentStack}`);
             }
           }
         };
-      } else if (canBlockProgress2 && !isChecked && isSubscription && countryCode == "CA") {
+      } else if (countryCode == "CA" && (isNotAllowed || variantNotAllowed)) {
+        console.log("ca invalid");
+        return {
+          behavior: "block",
+          reason: errorText,
+          perform: (result) => {
+            if (result.behavior === "block") {
+              setError(errorText);
+            }
+          }
+        };
+      } else if (canBlockProgress2 && !isChecked && isSubscription) {
         console.log("not allowed");
         return {
           behavior: "block",
