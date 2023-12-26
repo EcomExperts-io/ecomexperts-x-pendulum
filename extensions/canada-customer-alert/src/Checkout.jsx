@@ -30,14 +30,14 @@ function Extension() {
         const variant = item.merchandise.selectedOptions.length && item.merchandise.selectedOptions[0].value
         const quantity = item.quantity
   
-        if(!variant.includes("Single")) { 
+        if(!(variant.includes("Single") || variant.includes("Membership (3-month supply)") || title == "Polyphenol Booster 3 Month Supply")){ 
   
           setIsFlag(true); 
           console.log("true: single",true); 
           break 
         
         } 
-        if(!(title.includes("Akkermansia") || title === "Butyricum" || title === "Pendulum Metabolic Daily")) { 
+        if(!(title.includes("Akkermansia") || title === "Butyricum" || title === "Metabolic Daily" || title == "Polyphenol Booster 3 Month Supply")) { 
   
           console.log("true: variant",true);
           setIsFlag(true); 

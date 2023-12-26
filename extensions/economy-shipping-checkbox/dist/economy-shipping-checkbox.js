@@ -19546,6 +19546,7 @@ ${errorInfo.componentStack}`);
     () => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Extension, {})
   );
   function Extension() {
+    var _a;
     const deliveryGroups = useDeliveryGroups();
     const SelectedDelivery = deliveryGroups.length && deliveryGroups[0].deliveryOptions.filter(({ handle }) => handle == deliveryGroups[0].selectedDeliveryOption.handle);
     const [error, setError] = (0, import_react12.useState)("");
@@ -19553,7 +19554,8 @@ ${errorInfo.componentStack}`);
     const errorText = "To continue with your purchase, agree to the international shipping terms.";
     const canBlockProgress = useExtensionCapability("block_progress");
     useBuyerJourneyIntercept(({ canBlockProgress: canBlockProgress2 }) => {
-      if (canBlockProgress2 && !isChecked) {
+      var _a2;
+      if (canBlockProgress2 && !isChecked && ((_a2 = SelectedDelivery[0]) == null ? void 0 : _a2.title) === "International Economy") {
         return {
           behavior: "block",
           reason: errorText,
@@ -19575,7 +19577,7 @@ ${errorInfo.componentStack}`);
       setChecked((prev) => !prev);
       value ? setError("") : setError(errorText);
     };
-    return SelectedDelivery[0].title === "International Economy" ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+    return ((_a = SelectedDelivery[0]) == null ? void 0 : _a.title) === "International Economy" ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
       Checkbox2,
       {
         id: "shipping-consent",

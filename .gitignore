@@ -22,3 +22,8 @@ extensions/*/build
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+.husky/
+package.json
+package-lock.json
+node_modules/
+.gitignore
