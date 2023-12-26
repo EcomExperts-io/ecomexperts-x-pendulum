@@ -19565,6 +19565,7 @@ ${errorInfo.componentStack}`);
   var import_react12 = __toESM(require_react());
   var import_jsx_runtime4 = __toESM(require_jsx_runtime());
   var Checkout_default = reactExtension("purchase.checkout.block.render", () => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Extension, {}));
+  var productErrText = "You have product in your cart that can't be shipped to canada";
   var errorText = "To continue with your purchase, agree to the deferred or recurring purchase terms.";
   var consentText = "I understand that I'm agreeing to a subscription. It will renew at the price and frequency listed until it ends or is cancelled.";
   function Extension() {
@@ -19609,7 +19610,7 @@ ${errorInfo.componentStack}`);
           reason: errorText,
           perform: (result) => {
             if (result.behavior === "block") {
-              setError(errorText);
+              setError(productErrText);
             }
           }
         };
@@ -19620,7 +19621,7 @@ ${errorInfo.componentStack}`);
           reason: errorText,
           perform: (result) => {
             if (result.behavior === "block") {
-              setError(errorText);
+              setError(productErrText);
             }
           }
         };

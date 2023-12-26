@@ -13,6 +13,7 @@ export default reactExtension("purchase.checkout.block.render", () => (
   <Extension />
 ));
 
+const productErrText = "You have product in your cart that can't be shipped to canada";
 const errorText =
   "To continue with your purchase, agree to the deferred or recurring purchase terms.";
 const consentText =
@@ -65,7 +66,7 @@ function Extension() {
         reason: errorText,
         perform: (result) => {
           if (result.behavior === "block") {
-            setError(errorText);
+            setError(productErrText);
           }
         },
       };
@@ -76,7 +77,7 @@ function Extension() {
         reason: errorText,
         perform: (result) => {
           if (result.behavior === "block") {
-            setError(errorText);
+            setError(productErrText);
           }
         },
       };
