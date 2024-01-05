@@ -19541,3 +19541,4 @@ ${errorInfo.componentStack}`);
     ] }) : null;
   }
 })();
+//# sourceMappingURL=nutrition-message.js.map

@@ -19538,3 +19538,4 @@ ${errorInfo.componentStack}`);
     }
   }
 })();
+//# sourceMappingURL=ws-discount-note.js.map

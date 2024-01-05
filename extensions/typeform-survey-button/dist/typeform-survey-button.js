@@ -19559,10 +19559,6 @@ ${errorInfo.componentStack}`);
     const [hasOneTimeProducts, setOneTimeProducts] = (0, import_react14.useState)(0);
     const [noSurvey, setNoSurvey] = (0, import_react14.useState)(0);
     const [notHCP, setNotHCP] = (0, import_react14.useState)(0);
-    const [hasNutritionDefault, setHasNutritionDefault] = (0, import_react14.useState)(0);
-    const [hasNutritionPremium, setHasNutritionPremium] = (0, import_react14.useState)(0);
-    const [hasNutritionJennifer, setHasNutritionJennifer] = (0, import_react14.useState)(0);
-    const [hasNutritionTara, setHasNutritionTara] = (0, import_react14.useState)(0);
     const [surveyLink, setSurveyLink] = (0, import_react14.useState)("");
     const [surveyID, setSurveyID] = (0, import_react14.useState)(0);
     const [email, setEmail] = (0, import_react14.useState)(0);
@@ -19584,7 +19580,6 @@ ${errorInfo.componentStack}`);
             }
             const data = yield query(
               `{
-          
               node(id:"${variantId}") {
                 ...on ProductVariant {
                   sku
@@ -19629,7 +19624,6 @@ ${errorInfo.componentStack}`);
           }
         }`
             );
-            console.log(data);
             let tags = (_d = (_c = data == null ? void 0 : data.data) == null ? void 0 : _c.customer) == null ? void 0 : _d.tags;
             let ordersCount = (_f = (_e = data == null ? void 0 : data.data) == null ? void 0 : _e.customer) == null ? void 0 : _f.numberOfOrders;
             setEmail(() => {
@@ -19659,3 +19653,4 @@ ${errorInfo.componentStack}`);
     ] }) : null;
   }
 })();
+//# sourceMappingURL=typeform-survey-button.js.map

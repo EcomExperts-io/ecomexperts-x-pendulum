@@ -41,15 +41,14 @@ function Extension() {
     for (const cart_item of cartLines) {
       const cart_item_title = cart_item.merchandise.title;
       const cart_item_subtitle = cart_item.merchandise.subtitle;
-
-      if(!(cart_item_title === "Akkermansia" || cart_item_title === "Butyricum" || cart_item_title === "Metabolic Daily" || cart_item_title === "Polyphenol Booster 3 Month Supply")) {
+      if (!(cart_item_title === "Akkermansia" || cart_item_title === "Butyricum" || cart_item_title === "Metabolic Daily" || cart_item_title === "Polyphenol Booster 3 Month Supply")) {
         setNotAllowed(true);
       }
-      if((cart_item_title === "Akkermansia" || cart_item_title === "Butyricum" || cart_item_title === "Metabolic Daily" || cart_item_title === "Polyphenol Booster 3 Month Supply")) {
+      if ((cart_item_title === "Akkermansia" || cart_item_title === "Butyricum" || cart_item_title === "Metabolic Daily" || cart_item_title === "Polyphenol Booster 3 Month Supply")) {
         setAllowed(true);
       }
-      if(cart_item_subtitle && !(cart_item_subtitle.includes('Membership (3-month supply)') || cart_item_subtitle.includes('Single Bottle'))){
-        console.log(cart_item_subtitle,'csb');
+      if (cart_item_subtitle && !(cart_item_subtitle.includes('Membership (3-month supply)') || cart_item_subtitle.includes('Single Bottle'))) {
+        // console.log(cart_item_subtitle, 'csb');
         setVariantNotAllowed(true)
       }
     }
@@ -59,8 +58,8 @@ function Extension() {
   // Use the `buyerJourney` intercept to conditionally block checkout progress
   useBuyerJourneyIntercept(({ canBlockProgress }) => {
     // Validate that the consent
-    if(canBlockProgress && isAllowed && isNotAllowed && countryCode == "CA"){
-      console.log('invalid')
+    if (canBlockProgress && isAllowed && isNotAllowed && countryCode == "CA") {
+      // console.log('invalid')
       return {
         behavior: "block",
         reason: errorText,
@@ -70,8 +69,8 @@ function Extension() {
           }
         },
       };
-    }else if(countryCode == "CA" && (isNotAllowed || variantNotAllowed)){
-      console.log('ca invalid')
+    } else if (countryCode == "CA" && (isNotAllowed || variantNotAllowed)) {
+      // console.log('ca invalid')
       return {
         behavior: "block",
         reason: errorText,
@@ -81,8 +80,8 @@ function Extension() {
           }
         },
       };
-    }else if (canBlockProgress && !isChecked && isSubscription ) {
-      console.log('not allowed')
+    } else if (canBlockProgress && !isChecked && isSubscription) {
+      // console.log('not allowed')
       return {
         behavior: "block",
         reason: errorText,
@@ -93,7 +92,7 @@ function Extension() {
         },
       };
     }
-    console.log('allowed')
+    // console.log('allowed')
     return {
       behavior: "allow",
       perform: () => {
@@ -101,29 +100,26 @@ function Extension() {
       },
     };
   });
-
+  
   //if consent given, by selecting checkbox then add note for order else set show error
   const handleChange = async (value) => {
     setChecked(value);
     value ? setError("") : setError(errorText);
-
     if (value) {
       try {
         let fecha = new Date(
           new Date().toLocaleString("en", { timeZone: "America/Los_Angeles" })
         );
         let formattedFecha = fecha.toString().split("GMT")[0];
-
         const result = await noteChange({
           type: "updateNote",
           note: `One or more of the items in your cart is a membership purchase. By continuing, I agree to the cancellation policy and authorize you to charge my payment method at the prices, frequency and dates listed on this page until my order is fulfilled or I cancel, if permitted. -- Timestamp ${formattedFecha} `,
         });
       } catch (err) {
-        console.log("err", error);
+        // console.log("err", error);
       }
     }
   };
-
   //if cart includes any subscription product then show consent checkbox 
   return isSubscription ? (
     <Checkbox

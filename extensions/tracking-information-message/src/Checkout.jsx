@@ -5,22 +5,16 @@ import {
   BlockSpacer
 } from '@shopify/ui-extensions-react/checkout';
 
-
-
 const thankYouPage = reactExtension(
   'purchase.thank-you.block.render',
   () => <Extension />,
 );
 
 export { thankYouPage };
-
 function Extension() {
-  
-
   return (
     <>
       <Text>
-       
         Once your order ships, you'll receive a confirmation with tracking
         information! {" "}
         <Text emphasis="bold">
@@ -39,7 +33,6 @@ function Extension() {
         {" "}
         </Text>
         anytime.
-        
       </Text>
       <BlockSpacer spacing="loose" />
     </>

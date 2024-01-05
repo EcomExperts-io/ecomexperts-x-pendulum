@@ -19518,8 +19518,8 @@ ${errorInfo.componentStack}`);
     const cartLines = useCartLines();
     let cartLineId = "";
     for (var i = 0; i < cartLines.length; ++i) {
-      let varientIdLinkArray = cartLines[i].merchandise.id.split("/");
-      variantId = varientIdLinkArray[varientIdLinkArray.length - 1];
+      let variantIdLinkArray = cartLines[i].merchandise.id.split("/");
+      variantId = variantIdLinkArray[variantIdLinkArray.length - 1];
       if (variantId == addonId) {
         cartLineId = cartLines[i].id;
         productPresent = true;
@@ -19533,3 +19533,4 @@ ${errorInfo.componentStack}`);
     return null;
   }
 })();
+//# sourceMappingURL=product-addons.js.map
