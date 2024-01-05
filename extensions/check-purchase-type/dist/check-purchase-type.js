@@ -19440,7 +19440,7 @@ ${errorInfo.componentStack}`);
     const applyAttributeChange = useApplyAttributeChange();
     const [is_quiz, setQuiz] = (0, import_react8.useState)(0);
     const [addon_track, setAddon] = (0, import_react8.useState)(0);
-    const [addon_track_product_title, setaddonTitle] = (0, import_react8.useState)(0);
+    const [addon_track_product_title, setAddonTitle] = (0, import_react8.useState)(0);
     const [lock, setLock] = (0, import_react8.useState)(0);
     if (!lock) {
       let cartLines = useCartLines();
@@ -19453,7 +19453,7 @@ ${errorInfo.componentStack}`);
           }
           if (lineAttributes[j].key == "addon_track") {
             setAddon(lineAttributes[j].value);
-            setaddonTitle(cartLines[i].merchandise.title);
+            setAddonTitle(cartLines[i].merchandise.title);
           }
         }
       }
@@ -19479,3 +19479,4 @@ ${errorInfo.componentStack}`);
     return null;
   }
 })();
+//# sourceMappingURL=check-purchase-type.js.map

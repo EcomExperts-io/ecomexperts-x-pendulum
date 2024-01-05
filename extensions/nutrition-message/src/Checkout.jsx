@@ -7,8 +7,6 @@ import {
 
 import React, { useState } from 'react';
 
-
-
 const thankYouPage = reactExtension(
   'purchase.thank-you.block.render',
   () => <Extension />,
@@ -20,7 +18,6 @@ function Extension() {
   let cartLines = useCartLines();
   const [hasPGC, setHasPGC] = useState(false);
   const [hasNutrition, setHasNutrition] = useState(false);
-
   let cartLinesLength = cartLines.length;
   for(var i=0 ; i < cartLinesLength ; ++i){
     let cartLineTitle = cartLines[i].merchandise.title;
@@ -34,7 +31,6 @@ function Extension() {
       setHasNutrition(true);
     }
   }
-
   return (
     hasPGC && hasNutrition ?
     <>

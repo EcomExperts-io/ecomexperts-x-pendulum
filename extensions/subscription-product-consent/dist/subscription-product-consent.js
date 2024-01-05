@@ -19596,7 +19596,6 @@ ${errorInfo.componentStack}`);
           setAllowed(true);
         }
         if (cart_item_subtitle && !(cart_item_subtitle.includes("Membership (3-month supply)") || cart_item_subtitle.includes("Single Bottle"))) {
-          console.log(cart_item_subtitle, "csb");
           setVariantNotAllowed(true);
         }
       }
@@ -19604,7 +19603,6 @@ ${errorInfo.componentStack}`);
     const canBlockProgress = useExtensionCapability("block_progress");
     useBuyerJourneyIntercept(({ canBlockProgress: canBlockProgress2 }) => {
       if (canBlockProgress2 && isAllowed && isNotAllowed && countryCode == "CA") {
-        console.log("invalid");
         return {
           behavior: "block",
           reason: errorText,
@@ -19615,7 +19613,6 @@ ${errorInfo.componentStack}`);
           }
         };
       } else if (countryCode == "CA" && (isNotAllowed || variantNotAllowed)) {
-        console.log("ca invalid");
         return {
           behavior: "block",
           reason: errorText,
@@ -19626,7 +19623,6 @@ ${errorInfo.componentStack}`);
           }
         };
       } else if (canBlockProgress2 && !isChecked && isSubscription) {
-        console.log("not allowed");
         return {
           behavior: "block",
           reason: errorText,
@@ -19637,7 +19633,6 @@ ${errorInfo.componentStack}`);
           }
         };
       }
-      console.log("allowed");
       return {
         behavior: "allow",
         perform: () => {
@@ -19659,7 +19654,6 @@ ${errorInfo.componentStack}`);
             note: `One or more of the items in your cart is a membership purchase. By continuing, I agree to the cancellation policy and authorize you to charge my payment method at the prices, frequency and dates listed on this page until my order is fulfilled or I cancel, if permitted. -- Timestamp ${formattedFecha} `
           });
         } catch (err) {
-          console.log("err", error);
         }
       }
     });
@@ -19677,3 +19671,4 @@ ${errorInfo.componentStack}`);
     ) : null;
   }
 })();
+//# sourceMappingURL=subscription-product-consent.js.map

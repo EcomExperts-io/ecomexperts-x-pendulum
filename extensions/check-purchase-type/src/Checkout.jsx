@@ -11,38 +11,30 @@ export default reactExtension(
 
 import React, { useEffect, useState } from 'react';
 
-
-
 function Extension() {
   const applyAttributeChange = useApplyAttributeChange();
   const [is_quiz, setQuiz] = useState(0);
   const [addon_track, setAddon] = useState(0);
-  const [addon_track_product_title, setaddonTitle] = useState(0);
+  const [addon_track_product_title, setAddonTitle] = useState(0);
   const [lock, setLock] = useState(0);
-  
-  if(!lock){
+  if (!lock) {
     let cartLines = useCartLines();
     let linesLength = cartLines.length;
-    for(var i=0 ; i<linesLength ; ++i){
+    for (var i = 0; i < linesLength; ++i) {
       let lineAttributes = cartLines[i].attributes;
-      for(var j=0; j<lineAttributes.length; ++j){
-        if(lineAttributes[j].key == "is_quiz"){
-          
+      for (var j = 0; j < lineAttributes.length; ++j) {
+        if (lineAttributes[j].key == "is_quiz") {
           setQuiz(cartLines[i].merchandise.title);
-          
         }
-        if(lineAttributes[j].key == "addon_track"){
+        if (lineAttributes[j].key == "addon_track") {
           setAddon(lineAttributes[j].value);
-          setaddonTitle(cartLines[i].merchandise.title);
+          setAddonTitle(cartLines[i].merchandise.title);
         }
       }
     }
     setLock(1);
   }
-
-
-  useEffect(async() => {
-
+  useEffect(async () => {
     await applyAttributeChange({
       type: 'updateAttribute',
       key: "is_quiz",
@@ -60,10 +52,8 @@ function Extension() {
       key: "addon_track_product_title",
       value: addon_track_product_title
     });
-
   }, [lock]);
-
   return (
-   null
+    null
   );
 }

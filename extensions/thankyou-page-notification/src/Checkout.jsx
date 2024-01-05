@@ -9,14 +9,12 @@ const thankYouPage = reactExtension(
 );
 
 export { thankYouPage };
-
 function Extension() {
   const notificationText = "We are transitioning to a new operations system, so apologies if you receive duplicative shipment notifications from the team. You can reach out to our Customer Care team any time if there is any confusion.";
-
   return (
     <Banner
-    status="critical"
-    title={notificationText}
+      status="critical"
+      title={notificationText}
     />
   );
 }

@@ -8,7 +8,6 @@
  *     completes
  */
 import React from 'react';
-
 import {
   extend,
   render,
@@ -22,15 +21,13 @@ import {
  * optionally allows data to be stored on the client for use in the `Render`
  * extension point.
  */
- extend("Checkout::PostPurchase::ShouldRender", async ({ storage }) => {
+extend("Checkout::PostPurchase::ShouldRender", async ({ storage }) => {
   const initialState = await getRenderData();
   const render = true;
-  
   if (render) {
     // Saves initial state, provided to `Render` via `storage.initialData`
     await storage.update(initialState);
   }
-
   return {
     render,
   };
@@ -39,7 +36,7 @@ import {
 // Simulate results of network call, etc.
 async function getRenderData() {
   return {
-      couldBe: "anything",
+    couldBe: "anything",
   };
 }
 
@@ -54,18 +51,16 @@ render("Checkout::PostPurchase::Render", App);
 
 // Top-level React component
 export function App({ extensionPoint, storage }) {
-
   const initialState = storage.initialData;
   const notificationText = "We are transitioning to a new operations system, so apologies if you receive duplicative shipment notifications from the team. You can reach out to our Customer Care team any time if there is any confusion."
   const show_post_purchase_notification = true;
   
- 
   return (
     show_post_purchase_notification ?
-    <Banner
-    status="critical"
-    title={notificationText}
-    />:
-    null
+      <Banner
+        status="critical"
+        title={notificationText}
+      /> :
+      null
   );
 }
